@@ -1,15 +1,19 @@
 package;
 
+import haxe.Timer;
 import kha.Button;
 import kha.Configuration;
 import kha.Game;
+import kha.Image;
 import kha.Loader;
 import kha.LoadingScreen;
 import kha.Painter;
+import kha.Random;
+
 import BigBlock;
 
 class BlocksFromHeaven extends Game {
-	//Direction dir;
+	private var board: Image;
 	private var downtime: Int = 20;
 	private var count: Int;
 	private var faster: Bool = false;
@@ -24,22 +28,28 @@ class BlocksFromHeaven extends Game {
 	}
 	
 	private function loadingFinished(): Void {
+		Random.init(Std.int(Timer.stamp() * 1000));
+		
 		for (x in 0...Block.xsize) for (y in 0...Block.ysize) {
 			Block.blocked.push(new Array<Block>());
 			Block.blocked[x].push(null);
 		}
-		for (y in 0...Block.ysize - 2) Block.blocked[0][y] = new Block(0, y, 1, 1, 1);
-		for (y in 0...Block.ysize - 2) Block.blocked[Block.xsize - 1][y] = new Block(Block.xsize - 1, y, 1, 1, 1);
-		for (x in 0...Block.xsize) Block.blocked[x][0] = new Block(x, 0, 1, 1, 1);
 		
-		current = new SBlock();
+		for (y in 0...Block.ysize) Block.blocked[0][y] = new Block(0, y, null);
+		for (y in 0...Block.ysize) Block.blocked[Block.xsize - 1][y] = new Block(Block.xsize - 1, y, null);
+		for (x in 0...Block.xsize) Block.blocked[x][0] = new Block(x, 0, null);
+		
+		current = createRandomBlock();
 		current.hop();
-		next = new OBlock();
+		next = createRandomBlock();
+		
+		board = Loader.the.getImage("board");
 		
 		Configuration.setScreen(this);
 	}
 	
 	override public function render(painter: Painter): Void {
+		painter.drawImage(board, 0, 0);
 		for (x in 0...Block.xsize) {
 			for (y in 0...Block.ysize) {
 				if (Block.blocked[x][y] != null) {
@@ -116,8 +126,22 @@ class BlocksFromHeaven extends Game {
 		}
 	}
 	
+	private function createRandomBlock(): BigBlock {
+		switch (Random.getUpTo(6)) {
+		case 0: return new IBlock();
+		case 1: return new LBlock();
+		case 2: return new JBlock();
+		case 3: return new TBlock();
+		case 4: return new ZBlock();
+		case 5: return new SBlock();
+		case 6: return new OBlock();
+		}
+		return null;
+	}
+	
 	private function down(): Void {
 		if (!current.down()) {
+			down_ = false;
 			//FSOUND_PlaySound(2, bang);
 			try {
 				for (i in 0...4) {
@@ -125,22 +149,13 @@ class BlocksFromHeaven extends Game {
 					Block.blocked[block.getX()][block.getY()] = block;
 				}
 				current = next;
-				
-				switch (Std.int(Math.random() % 7)) {
-				case 0: next = new IBlock();
-				case 1: next = new LBlock();
-				case 2: next = new JBlock();
-				case 3: next = new TBlock();
-				case 4: next = new ZBlock();
-				case 5: next = new SBlock();
-				case 6: next = new OBlock();
-				}
+				next = createRandomBlock();
 				check();
 				//sound.play();
 				current.hop();
 			}
 			catch (e: Exception) {
-				//Game Over
+				Configuration.setScreen(new GameOver());
 				return;
 			}
 		}

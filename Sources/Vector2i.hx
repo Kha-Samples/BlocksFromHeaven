@@ -8,4 +8,9 @@ class Vector2i {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public function assign(value: Vector2i) {
+		x = value.x;
+		y = value.y;
+	}
 }

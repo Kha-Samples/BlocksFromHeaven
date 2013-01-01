@@ -1,5 +1,6 @@
 package;
 
+import kha.Loader;
 import kha.Painter;
 
 class BigBlock {
@@ -24,9 +25,9 @@ class BigBlock {
 		try {
 			while (i < 4) {
 				blocks[i].right();
-				++center.x;
 				++i;
 			}
+			++center.x;
 		}
 		catch (e: Exception) {
 			--i;
@@ -42,9 +43,9 @@ class BigBlock {
 		try {
 			while (i < 4) {
 				blocks[i].left();
-				--center.x;
 				++i;
 			}
+			--center.x;
 		}
 		catch (e: Exception) {
 			--i;
@@ -60,9 +61,9 @@ class BigBlock {
 		try {
 			while (i < 4) {
 				blocks[i].down();
-				--center.y;
 				++i;
 			}
+			--center.y;
 		}
 		catch (e: Exception) {
 			--i;
@@ -99,26 +100,31 @@ class BigBlock {
 	public function hop(): Void {
 		var i: Int = 0;
 		while (i < 4) {
-			blocks[i].left(10);
+			blocks[i].up(8);
+			blocks[i].left(8);
+			blocks[i].down(4);
 			++i;
 		}
-		center.x -= 10;
+		center.x -= 8;
+		center.y += 4;
 	}
 }
 
 class IBlock extends BigBlock {
 	public function new() {
-		super(15, 21);
-		blocks[0] = new Block(15, 22, 1, 0, 0); blocks[1] = new Block(15, 21, 1, 0, 0);
-		blocks[2] = new Block(15, 20, 1, 0, 0); blocks[3] = new Block(15, 19, 1, 0, 0);
+		super(13, 17);
+		var image = Loader.the.getImage("block_red");
+		blocks[0] = new Block(13, 18, image); blocks[1] = new Block(13, 17, image);
+		blocks[2] = new Block(13, 16, image); blocks[3] = new Block(13, 15, image);
 	}
 }
 
 class OBlock extends BigBlock {
 	public function new() {
-		super(15, 21);
-		blocks[0] = new Block(14, 22, 0, 0, 1); blocks[1] = new Block(14, 21, 0, 0, 1);
-		blocks[2] = new Block(15, 22, 0, 0, 1); blocks[3] = new Block(15, 21, 0, 0, 1);
+		super(13, 17);
+		var image = Loader.the.getImage("block_orange");
+		blocks[0] = new Block(12, 18, image); blocks[1] = new Block(12, 17, image);
+		blocks[2] = new Block(13, 18, image); blocks[3] = new Block(13, 17, image);
 	}
 	
 	override public function rotate(): Void {
@@ -128,40 +134,45 @@ class OBlock extends BigBlock {
 
 class LBlock extends BigBlock {
 	public function new() {
-		super(14, 21);
-		blocks[0] = new Block(14, 22, 1, 0, 1); blocks[1] = new Block(14, 21, 1, 0, 1);
-		blocks[2] = new Block(14, 20, 1, 0, 1); blocks[3] = new Block(15, 20, 1, 0, 1);
+		super(12, 17);
+		var image = Loader.the.getImage("block_blue");
+		blocks[0] = new Block(12, 18, image); blocks[1] = new Block(12, 17, image);
+		blocks[2] = new Block(12, 16, image); blocks[3] = new Block(13, 16, image);
 	}
 }
 
 class JBlock extends BigBlock {
 	public function new() {
-		super(14, 21);
-		blocks[0] = new Block(15, 22, 1, 1, 0); blocks[1] = new Block(15, 21, 1, 1, 0);
-		blocks[2] = new Block(15, 20, 1, 1, 0); blocks[3] = new Block(14, 20, 1, 1, 0);
+		super(12, 17);
+		var image = Loader.the.getImage("block_yellow");
+		blocks[0] = new Block(13, 18, image); blocks[1] = new Block(13, 17, image);
+		blocks[2] = new Block(13, 16, image); blocks[3] = new Block(12, 16, image);
 	}
 }
 
 class TBlock extends BigBlock {
 	public function new() {
-		super(15, 21);
-		blocks[0] = new Block(14, 22, 0, 1, 0); blocks[1] = new Block(15, 22, 0, 1, 0);
-		blocks[2] = new Block(16, 22, 0, 1, 0); blocks[3] = new Block(15, 21, 0, 1, 0);
+		super(13, 17);
+		var image = Loader.the.getImage("block_green");
+		blocks[0] = new Block(12, 18, image); blocks[1] = new Block(13, 18, image);
+		blocks[2] = new Block(14, 18, image); blocks[3] = new Block(13, 17, image);
 	}
 }
 
 class ZBlock extends BigBlock {
 	public function new() {
-		super(15, 22);
-		blocks[0] = new Block(14, 22, 1, 0.5, 0); blocks[1] = new Block(15, 22, 1, 0.5, 0);
-		blocks[2] = new Block(15, 21, 1, 0.5, 0); blocks[3] = new Block(16, 21, 1, 0.5, 0);
+		super(13, 18);
+		var image = Loader.the.getImage("block_purple");
+		blocks[0] = new Block(12, 18, image); blocks[1] = new Block(13, 18, image);
+		blocks[2] = new Block(13, 17, image); blocks[3] = new Block(14, 17, image);
 	}
 }
 
 class SBlock extends BigBlock {
 	public function new() {
-		super(15, 21);
-		blocks[0] = new Block(14, 21, 0, 1, 1); blocks[1] = new Block(15, 21, 0, 1, 1);
-		blocks[2] = new Block(15, 22, 0, 1, 1); blocks[3] = new Block(16, 22, 0, 1, 1);
+		super(13, 17);
+		var image = Loader.the.getImage("block_violet");
+		blocks[0] = new Block(12, 17, image); blocks[1] = new Block(13, 17, image);
+		blocks[2] = new Block(13, 18, image); blocks[3] = new Block(14, 18, image);
 	}
 }

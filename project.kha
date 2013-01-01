@@ -16,43 +16,43 @@
     {
       "id": "ed9a8cd4-5a40-47f7-a7ec-71a10a1357d4",
       "type": "image",
-      "file": "block-blue.png",
-      "name": "block-blue",
+      "file": "block_blue.png",
+      "name": "block_blue",
       "scale": 1.0
     },
     {
       "id": "a7ec3ad7-9564-4ffe-ba1d-e3992fc6f550",
       "type": "image",
-      "file": "block-green.png",
-      "name": "block-green",
+      "file": "block_green.png",
+      "name": "block_green",
       "scale": 1.0
     },
     {
       "id": "81cc31f3-896a-491e-b61a-ba43dab5d029",
       "type": "image",
-      "file": "block-orange.png",
-      "name": "block-orange",
+      "file": "block_orange.png",
+      "name": "block_orange",
       "scale": 1.0
     },
     {
       "id": "3fee96df-79bc-46e0-ae6e-fc521a17fb47",
       "type": "image",
-      "file": "block-purple.png",
-      "name": "block-purple",
+      "file": "block_purple.png",
+      "name": "block_purple",
       "scale": 1.0
     },
     {
       "id": "6874c54b-0f57-4ddd-a59a-0542fb188fb6",
       "type": "image",
-      "file": "block-violet.png",
-      "name": "block-violet",
+      "file": "block_violet.png",
+      "name": "block_violet",
       "scale": 1.0
     },
     {
       "id": "16fe20f9-aca0-4f3a-960c-8828ce769546",
       "type": "image",
-      "file": "block-yellow.png",
-      "name": "block-yellow",
+      "file": "block_yellow.png",
+      "name": "block_yellow",
       "scale": 1.0
     },
     {
