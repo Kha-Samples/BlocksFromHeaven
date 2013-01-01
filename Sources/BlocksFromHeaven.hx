@@ -9,6 +9,7 @@ import kha.Loader;
 import kha.LoadingScreen;
 import kha.Painter;
 import kha.Random;
+import kha.Sound;
 
 import BigBlock;
 
@@ -16,6 +17,8 @@ class BlocksFromHeaven extends Game {
 	private var board: Image;
 	private var count: Int = 0;
 	private var faster: Bool = false;
+	private var klackSound: Sound;
+	private var lineSound: Sound;
 	
 	public function new() {
 		super("BlocksFromHeaven", false);
@@ -43,8 +46,11 @@ class BlocksFromHeaven extends Game {
 		next = createRandomBlock();
 		
 		board = Loader.the.getImage("board");
+		klackSound = Loader.the.getSound("klack");
+		lineSound = Loader.the.getSound("line");
 		
 		Configuration.setScreen(this);
+		Loader.the.getMusic("blocks").play();
 	}
 	
 	override public function render(painter: Painter): Void {
@@ -140,7 +146,6 @@ class BlocksFromHeaven extends Game {
 	private function down(): Void {
 		if (!current.down()) {
 			down_ = false;
-			//FSOUND_PlaySound(2, bang);
 			try {
 				for (i in 0...4) {
 					var block = current.getBlock(i);
@@ -149,7 +154,6 @@ class BlocksFromHeaven extends Game {
 				current = next;
 				next = createRandomBlock();
 				check();
-				//sound.play();
 				current.hop();
 			}
 			catch (e: Exception) {
@@ -165,10 +169,12 @@ class BlocksFromHeaven extends Game {
 	}
 	
 	private function check(): Void {
+		var lineDeleted = false;
 		for (i in 0...4) {
 			var y: Int = 1;
 			while (y < Block.ysize) {
 				if (lineBlocked(y)) {
+					lineDeleted = true;
 					for (x in 1...Block.xsize - 1) {
 						Block.blocked[x][y] = null;
 					}
@@ -185,5 +191,7 @@ class BlocksFromHeaven extends Game {
 				++y;
 			}
 		}
+		if (lineDeleted) lineSound.play();
+		else klackSound.play();
 	}
 }

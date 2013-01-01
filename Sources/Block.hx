@@ -7,7 +7,7 @@ import kha.Painter;
 class Block {
 	public static var xsize: Int = 12;
 	public static var ysize: Int = 23;
-	public static var blocked: Array<Array<Block>> = new Array<Array<Block>>(); // [xsize][ysize];
+	public static var blocked: Array<Array<Block>> = new Array<Array<Block>>();
 
 	private var image: Image;
 	private var pos: Vector2i;
@@ -64,7 +64,6 @@ class Block {
 		if (blocked[newpos.x][newpos.y] != null) throw new Exception();
 		lastpos.assign(pos);
 		pos.assign(newpos);
-		//FSOUND_PlaySound(1, boing);
 	}
 	
 	public function back(): Void {

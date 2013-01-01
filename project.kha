@@ -75,6 +75,34 @@
       "file": "title.png",
       "name": "title",
       "scale": 1.0
+    },
+    {
+      "id": "14c9e920-c394-40ee-b2a1-d6a07350cff0",
+      "type": "sound",
+      "file": "klack",
+      "name": "klack",
+      "scale": 1.0
+    },
+    {
+      "id": "c59ca7c8-152b-4d70-a4bf-732a7e102ede",
+      "type": "sound",
+      "file": "line",
+      "name": "line",
+      "scale": 1.0
+    },
+    {
+      "id": "f2b8b181-887b-4a61-8454-f916afe730ab",
+      "type": "sound",
+      "file": "rotate",
+      "name": "rotate",
+      "scale": 1.0
+    },
+    {
+      "id": "114ab1ca-49f9-4616-8d02-1018402ca59d",
+      "type": "music",
+      "file": "blocks",
+      "name": "blocks",
+      "scale": 1.0
     }
   ],
   "rooms": [
@@ -92,7 +120,11 @@
         "16fe20f9-aca0-4f3a-960c-8828ce769546",
         "ab12d40b-a4be-443c-8f78-09d152aa103c",
         "86d08bc7-abea-4ef7-af03-d21f3f6232a9",
-        "93fabfc8-7769-47f0-a001-ab0144008a3a"
+        "93fabfc8-7769-47f0-a001-ab0144008a3a",
+        "14c9e920-c394-40ee-b2a1-d6a07350cff0",
+        "c59ca7c8-152b-4d70-a4bf-732a7e102ede",
+        "f2b8b181-887b-4a61-8454-f916afe730ab",
+        "114ab1ca-49f9-4616-8d02-1018402ca59d"
       ]
     }
   ]

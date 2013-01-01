@@ -2,6 +2,7 @@ package;
 
 import kha.Loader;
 import kha.Painter;
+import kha.Sound;
 
 class BigBlock {
 	public static var next: BigBlock;
@@ -9,8 +10,10 @@ class BigBlock {
 	
 	private var center: Vector2i;
 	private var blocks: Array<Block>;
+	private var rotateSound: Sound;
 
 	public function new(xx: Int, yy: Int) {
+		rotateSound = Loader.the.getSound("rotate");
 		center = new Vector2i(xx, yy);
 		blocks = new Array<Block>();
 		for (i in 0...4) blocks.push(null);
@@ -81,6 +84,7 @@ class BigBlock {
 	}
 	
 	public function rotate(): Void {
+		rotateSound.play();
 		var i: Int = 0;
 		try {
 			while (i < 4) {
