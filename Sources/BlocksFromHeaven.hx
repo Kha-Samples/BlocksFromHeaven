@@ -14,8 +14,7 @@ import BigBlock;
 
 class BlocksFromHeaven extends Game {
 	private var board: Image;
-	private var downtime: Int = 20;
-	private var count: Int;
+	private var count: Int = 0;
 	private var faster: Bool = false;
 	
 	public function new() {
@@ -93,9 +92,8 @@ class BlocksFromHeaven extends Game {
 			current.rotate();
 			button = false;
 		}
-		if (count % 1000 == 0 && downtime > 2) --downtime;
-		if (count % downtime == 0 && !down_) down();
 		if (down_) down();
+		else if (count % 60 == 0) down();
 	}
 	
 	override public function buttonDown(button: Button): Void {
