@@ -8,7 +8,7 @@ import kha.Image;
 import kha.Loader;
 import kha.LoadingScreen;
 import kha.Painter;
-import kha.Random;
+import kha.math.Random;
 import kha.Sound;
 
 import BigBlock;
