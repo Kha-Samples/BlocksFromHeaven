@@ -4,10 +4,10 @@ import kha.Image;
 import kha.Loader;
 import kha.Painter;
 
-class Block {
+class GameBlock {
 	public static var xsize: Int = 12;
 	public static var ysize: Int = 23;
-	public static var blocked: Array<Array<Block>> = new Array<Array<Block>>();
+	public static var blocked: Array<Array<GameBlock>> = new Array<Array<GameBlock>>();
 
 	private var image: Image;
 	private var pos: Vector2i;

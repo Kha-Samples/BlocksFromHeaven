@@ -9,13 +9,13 @@ class BigBlock {
 	public static var current: BigBlock;
 	
 	private var center: Vector2i;
-	private var blocks: Array<Block>;
+	private var blocks: Array<GameBlock>;
 	private var rotateSound: Sound;
 
 	public function new(xx: Int, yy: Int) {
 		rotateSound = Loader.the.getSound("rotate");
 		center = new Vector2i(xx, yy);
-		blocks = new Array<Block>();
+		blocks = new Array<GameBlock>();
 		for (i in 0...4) blocks.push(null);
 	}
 	
@@ -79,7 +79,7 @@ class BigBlock {
 		return true;
 	}
 	
-	public function getBlock(b: Int): Block {
+	public function getBlock(b: Int): GameBlock {
 		return blocks[b];
 	}
 	
@@ -118,8 +118,8 @@ class IBlock extends BigBlock {
 	public function new() {
 		super(13, 17);
 		var image = Loader.the.getImage("block_red");
-		blocks[0] = new Block(13, 18, image); blocks[1] = new Block(13, 17, image);
-		blocks[2] = new Block(13, 16, image); blocks[3] = new Block(13, 15, image);
+		blocks[0] = new GameBlock(13, 18, image); blocks[1] = new GameBlock(13, 17, image);
+		blocks[2] = new GameBlock(13, 16, image); blocks[3] = new GameBlock(13, 15, image);
 	}
 }
 
@@ -127,8 +127,8 @@ class OBlock extends BigBlock {
 	public function new() {
 		super(13, 17);
 		var image = Loader.the.getImage("block_orange");
-		blocks[0] = new Block(12, 18, image); blocks[1] = new Block(12, 17, image);
-		blocks[2] = new Block(13, 18, image); blocks[3] = new Block(13, 17, image);
+		blocks[0] = new GameBlock(12, 18, image); blocks[1] = new GameBlock(12, 17, image);
+		blocks[2] = new GameBlock(13, 18, image); blocks[3] = new GameBlock(13, 17, image);
 	}
 	
 	override public function rotate(): Void {
@@ -140,8 +140,8 @@ class LBlock extends BigBlock {
 	public function new() {
 		super(12, 17);
 		var image = Loader.the.getImage("block_blue");
-		blocks[0] = new Block(12, 18, image); blocks[1] = new Block(12, 17, image);
-		blocks[2] = new Block(12, 16, image); blocks[3] = new Block(13, 16, image);
+		blocks[0] = new GameBlock(12, 18, image); blocks[1] = new GameBlock(12, 17, image);
+		blocks[2] = new GameBlock(12, 16, image); blocks[3] = new GameBlock(13, 16, image);
 	}
 }
 
@@ -149,8 +149,8 @@ class JBlock extends BigBlock {
 	public function new() {
 		super(12, 17);
 		var image = Loader.the.getImage("block_yellow");
-		blocks[0] = new Block(13, 18, image); blocks[1] = new Block(13, 17, image);
-		blocks[2] = new Block(13, 16, image); blocks[3] = new Block(12, 16, image);
+		blocks[0] = new GameBlock(13, 18, image); blocks[1] = new GameBlock(13, 17, image);
+		blocks[2] = new GameBlock(13, 16, image); blocks[3] = new GameBlock(12, 16, image);
 	}
 }
 
@@ -158,8 +158,8 @@ class TBlock extends BigBlock {
 	public function new() {
 		super(13, 17);
 		var image = Loader.the.getImage("block_green");
-		blocks[0] = new Block(12, 18, image); blocks[1] = new Block(13, 18, image);
-		blocks[2] = new Block(14, 18, image); blocks[3] = new Block(13, 17, image);
+		blocks[0] = new GameBlock(12, 18, image); blocks[1] = new GameBlock(13, 18, image);
+		blocks[2] = new GameBlock(14, 18, image); blocks[3] = new GameBlock(13, 17, image);
 	}
 }
 
@@ -167,8 +167,8 @@ class ZBlock extends BigBlock {
 	public function new() {
 		super(13, 18);
 		var image = Loader.the.getImage("block_purple");
-		blocks[0] = new Block(12, 18, image); blocks[1] = new Block(13, 18, image);
-		blocks[2] = new Block(13, 17, image); blocks[3] = new Block(14, 17, image);
+		blocks[0] = new GameBlock(12, 18, image); blocks[1] = new GameBlock(13, 18, image);
+		blocks[2] = new GameBlock(13, 17, image); blocks[3] = new GameBlock(14, 17, image);
 	}
 }
 
@@ -176,7 +176,7 @@ class SBlock extends BigBlock {
 	public function new() {
 		super(13, 17);
 		var image = Loader.the.getImage("block_violet");
-		blocks[0] = new Block(12, 17, image); blocks[1] = new Block(13, 17, image);
-		blocks[2] = new Block(13, 18, image); blocks[3] = new Block(14, 18, image);
+		blocks[0] = new GameBlock(12, 17, image); blocks[1] = new GameBlock(13, 17, image);
+		blocks[2] = new GameBlock(13, 18, image); blocks[3] = new GameBlock(14, 18, image);
 	}
 }
