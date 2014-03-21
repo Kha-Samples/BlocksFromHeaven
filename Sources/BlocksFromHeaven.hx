@@ -9,6 +9,7 @@ import kha.Loader;
 import kha.LoadingScreen;
 import kha.Painter;
 import kha.math.Random;
+import kha.Scheduler;
 import kha.Sound;
 
 import BigBlock;
@@ -54,6 +55,7 @@ class BlocksFromHeaven extends Game {
 	}
 	
 	override public function render(painter: Painter): Void {
+		startRender(painter);
 		painter.drawImage(board, 0, 0);
 		for (x in 0...GameBlock.xsize) {
 			for (y in 0...GameBlock.ysize) {
@@ -64,6 +66,7 @@ class BlocksFromHeaven extends Game {
 		}
 		next.draw(painter);
 		current.draw(painter);
+		endRender(painter);
 	}
 	
 	private var left = false;
@@ -76,10 +79,59 @@ class BlocksFromHeaven extends Game {
 	private var next: BigBlock;
 	private var xcount: Int = 0;
 	
+	private var mousedowncount: Int = 0;
+	private var fingerdown: Bool = false;
+	private var fingerposx: Int = 0;
+	private var fingerposy: Int = 0;
+	private var fingerstartx: Int = 0;
+	private var fingerstarty: Int = 0;
+	private var blocksize: Int = 16;
+	private var lastclicktime: Float = 0;
+	
 	override public function update(): Void {		
 		lastleft = left;
 		lastright = right;
 
+		//
+		
+		++mousedowncount;
+		if (mousedowncount == 0) mousedowncount = 100;
+		
+	//
+		if (fingerdown) {
+			var leftright = false;
+			if (fingerposx - fingerstartx > 15 || fingerposx - fingerstartx < -15) leftright = true;
+			while (fingerposx - fingerstartx > blocksize) {
+				fingerstartx += blocksize;
+				current.right();
+				leftright = true;
+			}
+			while (fingerposx - fingerstartx < -blocksize) {
+				fingerstartx -= blocksize;
+				current.left();
+				leftright = true;
+			}
+			if (leftright) {
+				fingerstarty = fingerposy;
+			}
+			else {
+				while (fingerposy - fingerstarty > blocksize) {
+					fingerstarty += blocksize;
+					current.down();
+				}
+			}
+		}
+		else {
+			if (mousedowncount < 10) {
+				var currenttime = Scheduler.time();
+				if (currenttime > lastclicktime + 0.6) {
+					current.rotate();
+					mousedowncount = 100;
+					lastclicktime = currenttime;
+				}
+			}
+		}
+		
 		++count;
 		++xcount;
 		if (right && !lastright) {
@@ -99,7 +151,7 @@ class BlocksFromHeaven extends Game {
 			button = false;
 		}
 		if (down_) down();
-		else if (count % 60 == 0) down();
+		else if (count % 60 == 0) down();		
 	}
 	
 	override public function buttonDown(button: Button): Void {
@@ -128,6 +180,27 @@ class BlocksFromHeaven extends Game {
 			this.button = false;
 		default:
 		}
+	}
+	
+	override public function mouseDown(x: Int, y: Int): Void {
+		super.mouseDown(x, y);
+		mousedowncount = 0;
+		fingerstartx = painterTransformMouseX(x);
+		fingerstarty = painterTransformMouseY(y);
+		fingerposx = fingerstartx;
+		fingerposy = fingerstarty;
+		fingerdown = true;
+	}
+	
+	override public function mouseUp(x: Int, y: Int): Void {
+		super.mouseUp(x, y);
+		fingerdown = false;
+	}
+	
+	override public function mouseMove(x: Int, y: Int): Void {
+		super.mouseMove(x, y);
+		fingerposx = painterTransformMouseX(x);
+		fingerposy = painterTransformMouseY(y);
 	}
 	
 	private function createRandomBlock(): BigBlock {
