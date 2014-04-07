@@ -2,6 +2,7 @@ package;
 
 import haxe.Timer;
 import kha.Button;
+import kha.Color;
 import kha.Configuration;
 import kha.Game;
 import kha.Image;
@@ -56,6 +57,7 @@ class BlocksFromHeaven extends Game {
 	
 	override public function render(painter: Painter): Void {
 		startRender(painter);
+		painter.setColor(Color.White);
 		painter.drawImage(board, 0, 0);
 		for (x in 0...GameBlock.xsize) {
 			for (y in 0...GameBlock.ysize) {
