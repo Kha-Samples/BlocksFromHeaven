@@ -4,12 +4,14 @@ import haxe.Timer;
 import kha.Button;
 import kha.Color;
 import kha.Configuration;
+import kha.Framebuffer;
 import kha.Game;
 import kha.Image;
 import kha.Loader;
 import kha.LoadingScreen;
 import kha.Painter;
 import kha.math.Random;
+import kha.Scaler;
 import kha.Scheduler;
 import kha.Sound;
 
@@ -21,6 +23,7 @@ class BlocksFromHeaven extends Game {
 	private var faster: Bool = false;
 	private var klackSound: Sound;
 	private var lineSound: Sound;
+	private var backbuffer: Image;
 	
 	public function new() {
 		super("BlocksFromHeaven", false);
@@ -33,6 +36,8 @@ class BlocksFromHeaven extends Game {
 	
 	private function loadingFinished(): Void {
 		Random.init(Std.int(Timer.stamp() * 1000));
+		
+		backbuffer = Image.createRenderTarget(272, 480);
 		
 		for (x in 0...GameBlock.xsize) for (y in 0...GameBlock.ysize) {
 			GameBlock.blocked.push(new Array<GameBlock>());
@@ -55,20 +60,24 @@ class BlocksFromHeaven extends Game {
 		Loader.the.getMusic("blocks").play();
 	}
 	
-	override public function render(painter: Painter): Void {
-		startRender(painter);
-		painter.setColor(Color.White);
-		painter.drawImage(board, 0, 0);
+	override public function render(framebuffer: Framebuffer): Void {
+		var g = backbuffer.g2;
+		g.begin();
+		g.color = Color.White;
+		g.drawImage(board, 0, 0);
 		for (x in 0...GameBlock.xsize) {
 			for (y in 0...GameBlock.ysize) {
 				if (GameBlock.blocked[x][y] != null) {
-					GameBlock.blocked[x][y].draw(painter);
+					GameBlock.blocked[x][y].draw(g);
 				}
 			}
 		}
-		next.draw(painter);
-		current.draw(painter);
-		endRender(painter);
+		next.draw(g);
+		current.draw(g);
+		g.end();
+		startRender(framebuffer);
+		Scaler.scale(backbuffer, framebuffer, kha.Sys.screenRotation);
+		endRender(framebuffer);
 	}
 	
 	private var left = false;
@@ -187,8 +196,8 @@ class BlocksFromHeaven extends Game {
 	override public function mouseDown(x: Int, y: Int): Void {
 		super.mouseDown(x, y);
 		mousedowncount = 0;
-		fingerstartx = painterTransformMouseX(x);
-		fingerstarty = painterTransformMouseY(y);
+		fingerstartx = painterTransformMouseX(x, y);
+		fingerstarty = painterTransformMouseY(x, y);
 		fingerposx = fingerstartx;
 		fingerposy = fingerstarty;
 		fingerdown = true;
@@ -201,8 +210,8 @@ class BlocksFromHeaven extends Game {
 	
 	override public function mouseMove(x: Int, y: Int): Void {
 		super.mouseMove(x, y);
-		fingerposx = painterTransformMouseX(x);
-		fingerposy = painterTransformMouseY(y);
+		fingerposx = painterTransformMouseX(x, y);
+		fingerposy = painterTransformMouseY(x, y);
 	}
 	
 	private function createRandomBlock(): BigBlock {

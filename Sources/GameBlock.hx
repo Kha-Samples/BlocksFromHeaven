@@ -1,5 +1,6 @@
 package;
 
+import kha.graphics2.Graphics;
 import kha.Image;
 import kha.Loader;
 import kha.Painter;
@@ -19,8 +20,8 @@ class GameBlock {
 		this.image = image;
 	}
 
-	public function draw(painter: Painter) {
-		if (image != null) painter.drawImage(image, 16 + pos.x * 16, 400 - pos.y * 16);
+	public function draw(g: Graphics) {
+		if (image != null) g.drawImage(image, 16 + pos.x * 16, 400 - pos.y * 16);
 	}
 
 	public function getX(): Int {

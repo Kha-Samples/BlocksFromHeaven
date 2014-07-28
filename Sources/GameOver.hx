@@ -1,5 +1,6 @@
 package;
 
+import kha.Framebuffer;
 import kha.Game;
 import kha.Image;
 import kha.Loader;
@@ -17,7 +18,9 @@ class GameOver extends Game {
 		
 	}
 	
-	override public function render(painter: Painter): Void {
-		painter.drawImage(image, 0, 0);
+	override public function render(framebuffer: Framebuffer): Void {
+		startRender(framebuffer);
+		framebuffer.g2.drawScaledImage(image, 0, 0, framebuffer.width, framebuffer.height);
+		endRender(framebuffer);
 	}
 }

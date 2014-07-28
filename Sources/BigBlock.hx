@@ -1,5 +1,6 @@
 package;
 
+import kha.graphics2.Graphics;
 import kha.Loader;
 import kha.Painter;
 import kha.Sound;
@@ -19,8 +20,8 @@ class BigBlock {
 		for (i in 0...4) blocks.push(null);
 	}
 	
-	public function draw(painter: Painter): Void {
-		for (i in 0...4) blocks[i].draw(painter);
+	public function draw(g: Graphics): Void {
+		for (i in 0...4) blocks[i].draw(g);
 	}
 	
 	public function right(): Void {
