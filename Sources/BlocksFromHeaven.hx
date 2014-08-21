@@ -4,13 +4,13 @@ import haxe.Timer;
 import kha.Button;
 import kha.Color;
 import kha.Configuration;
+import kha.deprecated.Painter;
 import kha.Framebuffer;
 import kha.Game;
 import kha.Image;
 import kha.Loader;
 import kha.LoadingScreen;
 import kha.math.Random;
-import kha.Scaler;
 import kha.Scheduler;
 import kha.Sound;
 
@@ -22,21 +22,20 @@ class BlocksFromHeaven extends Game {
 	private var faster: Bool = false;
 	private var klackSound: Sound;
 	private var lineSound: Sound;
-	private var backbuffer: Image;
+	private var painter: Painter;
 	
 	public function new() {
 		super("BlocksFromHeaven", false);
 	}
 	
 	override public function init(): Void {
+		painter = new Painter(272, 480);
 		Configuration.setScreen(new LoadingScreen());
 		Loader.the.loadRoom("blocks", loadingFinished);
 	}
 	
 	private function loadingFinished(): Void {
 		Random.init(Std.int(Timer.stamp() * 1000));
-		
-		backbuffer = Image.createRenderTarget(272, 480);
 		
 		for (x in 0...GameBlock.xsize) for (y in 0...GameBlock.ysize) {
 			GameBlock.blocked.push(new Array<GameBlock>());
@@ -60,22 +59,22 @@ class BlocksFromHeaven extends Game {
 	}
 	
 	override public function render(framebuffer: Framebuffer): Void {
-		var g = backbuffer.g2;
-		g.begin();
-		g.color = Color.White;
-		g.drawImage(board, 0, 0);
+		painter.begin();
+		painter.setColor(Color.White);
+		painter.drawImage(board, 0, 0);
 		for (x in 0...GameBlock.xsize) {
 			for (y in 0...GameBlock.ysize) {
 				if (GameBlock.blocked[x][y] != null) {
-					GameBlock.blocked[x][y].draw(g);
+					GameBlock.blocked[x][y].draw(painter);
 				}
 			}
 		}
-		next.draw(g);
-		current.draw(g);
-		g.end();
+		next.draw(painter);
+		current.draw(painter);
+		painter.end();
+		
 		startRender(framebuffer);
-		Scaler.scale(backbuffer, framebuffer, kha.Sys.screenRotation);
+		painter.render(framebuffer);
 		endRender(framebuffer);
 	}
 	

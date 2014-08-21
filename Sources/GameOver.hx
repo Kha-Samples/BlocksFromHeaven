@@ -4,6 +4,7 @@ import kha.Framebuffer;
 import kha.Game;
 import kha.Image;
 import kha.Loader;
+import kha.deprecated.Painter;
 
 class GameOver extends Game {
 	private var image: Image;
@@ -18,8 +19,8 @@ class GameOver extends Game {
 	}
 	
 	override public function render(framebuffer: Framebuffer): Void {
-		startRender(framebuffer);
-		framebuffer.g2.drawScaledImage(image, 0, 0, framebuffer.width, framebuffer.height);
-		endRender(framebuffer);
+		framebuffer.g2.begin();
+		framebuffer.g2.drawScaledImage(image, 0, 0, framebuffer.width, framebuffer.width);
+		framebuffer.g2.end();
 	}
 }
