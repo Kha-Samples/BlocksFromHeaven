@@ -9,7 +9,6 @@ import kha.Game;
 import kha.Image;
 import kha.Loader;
 import kha.LoadingScreen;
-import kha.Painter;
 import kha.math.Random;
 import kha.Scaler;
 import kha.Scheduler;

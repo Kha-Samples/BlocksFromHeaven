@@ -4,7 +4,6 @@ import kha.Framebuffer;
 import kha.Game;
 import kha.Image;
 import kha.Loader;
-import kha.Painter;
 
 class GameOver extends Game {
 	private var image: Image;

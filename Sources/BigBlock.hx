@@ -2,7 +2,6 @@ package;
 
 import kha.graphics2.Graphics;
 import kha.Loader;
-import kha.Painter;
 import kha.Sound;
 
 class BigBlock {
