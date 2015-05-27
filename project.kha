@@ -1,131 +1,117 @@
 {
-  "format": 1,
-  "game": {
-    "name": "BlocksFromHeaven",
-    "width": 272,
-    "height": 480
-  },
-  "assets": [
-    {
-      "id": "3bae0898-e8e2-4ee9-859f-966f4e04e6dd",
-      "type": "image",
-      "file": "block_red.png",
-      "name": "block_red",
-      "scale": 1.0
-    },
-    {
-      "id": "ed9a8cd4-5a40-47f7-a7ec-71a10a1357d4",
-      "type": "image",
-      "file": "block_blue.png",
-      "name": "block_blue",
-      "scale": 1.0
-    },
-    {
-      "id": "a7ec3ad7-9564-4ffe-ba1d-e3992fc6f550",
-      "type": "image",
-      "file": "block_green.png",
-      "name": "block_green",
-      "scale": 1.0
-    },
-    {
-      "id": "81cc31f3-896a-491e-b61a-ba43dab5d029",
-      "type": "image",
-      "file": "block_orange.png",
-      "name": "block_orange",
-      "scale": 1.0
-    },
-    {
-      "id": "3fee96df-79bc-46e0-ae6e-fc521a17fb47",
-      "type": "image",
-      "file": "block_purple.png",
-      "name": "block_purple",
-      "scale": 1.0
-    },
-    {
-      "id": "6874c54b-0f57-4ddd-a59a-0542fb188fb6",
-      "type": "image",
-      "file": "block_violet.png",
-      "name": "block_violet",
-      "scale": 1.0
-    },
-    {
-      "id": "16fe20f9-aca0-4f3a-960c-8828ce769546",
-      "type": "image",
-      "file": "block_yellow.png",
-      "name": "block_yellow",
-      "scale": 1.0
-    },
-    {
-      "id": "ab12d40b-a4be-443c-8f78-09d152aa103c",
-      "type": "image",
-      "file": "board.png",
-      "name": "board",
-      "scale": 1.0
-    },
-    {
-      "id": "86d08bc7-abea-4ef7-af03-d21f3f6232a9",
-      "type": "image",
-      "file": "score.png",
-      "name": "score",
-      "scale": 1.0
-    },
-    {
-      "id": "93fabfc8-7769-47f0-a001-ab0144008a3a",
-      "type": "image",
-      "file": "title.png",
-      "name": "title",
-      "scale": 1.0
-    },
-    {
-      "id": "14c9e920-c394-40ee-b2a1-d6a07350cff0",
-      "type": "sound",
-      "file": "klack",
-      "name": "klack",
-      "scale": 1.0
-    },
-    {
-      "id": "c59ca7c8-152b-4d70-a4bf-732a7e102ede",
-      "type": "sound",
-      "file": "line",
-      "name": "line",
-      "scale": 1.0
-    },
-    {
-      "id": "f2b8b181-887b-4a61-8454-f916afe730ab",
-      "type": "sound",
-      "file": "rotate",
-      "name": "rotate",
-      "scale": 1.0
-    },
-    {
-      "id": "114ab1ca-49f9-4616-8d02-1018402ca59d",
-      "type": "music",
-      "file": "blocks",
-      "name": "blocks",
-      "scale": 1.0
-    }
-  ],
-  "rooms": [
-    {
-      "id": "fe707b85-297e-445c-8cc5-4e09131655c8",
-      "name": "blocks",
-      "neighbours": [],
-      "assets": [
-        "3bae0898-e8e2-4ee9-859f-966f4e04e6dd",
-        "ed9a8cd4-5a40-47f7-a7ec-71a10a1357d4",
-        "a7ec3ad7-9564-4ffe-ba1d-e3992fc6f550",
-        "81cc31f3-896a-491e-b61a-ba43dab5d029",
-        "3fee96df-79bc-46e0-ae6e-fc521a17fb47",
-        "6874c54b-0f57-4ddd-a59a-0542fb188fb6",
-        "16fe20f9-aca0-4f3a-960c-8828ce769546",
-        "ab12d40b-a4be-443c-8f78-09d152aa103c",
-        "86d08bc7-abea-4ef7-af03-d21f3f6232a9",
-        "93fabfc8-7769-47f0-a001-ab0144008a3a",
-        "14c9e920-c394-40ee-b2a1-d6a07350cff0",
-        "c59ca7c8-152b-4d70-a4bf-732a7e102ede",
-        "f2b8b181-887b-4a61-8454-f916afe730ab",
-        "114ab1ca-49f9-4616-8d02-1018402ca59d"
-      ]
-    }
-  ]
+	"format": 2,
+	"game": {
+		"name": "BlocksFromHeaven",
+		"width": 272,
+		"height": 480
+	},
+	"assets": [
+		{
+			"type": "image",
+			"file": "block_red.png",
+			"name": "block_red",
+			"scale": 1
+		},
+		{
+			"type": "image",
+			"file": "block_blue.png",
+			"name": "block_blue",
+			"scale": 1
+		},
+		{
+			"type": "image",
+			"file": "block_green.png",
+			"name": "block_green",
+			"scale": 1
+		},
+		{
+			"type": "image",
+			"file": "block_orange.png",
+			"name": "block_orange",
+			"scale": 1
+		},
+		{
+			"type": "image",
+			"file": "block_purple.png",
+			"name": "block_purple",
+			"scale": 1
+		},
+		{
+			"type": "image",
+			"file": "block_violet.png",
+			"name": "block_violet",
+			"scale": 1
+		},
+		{
+			"type": "image",
+			"file": "block_yellow.png",
+			"name": "block_yellow",
+			"scale": 1
+		},
+		{
+			"type": "image",
+			"file": "board.png",
+			"name": "board",
+			"scale": 1
+		},
+		{
+			"type": "image",
+			"file": "score.png",
+			"name": "score",
+			"scale": 1
+		},
+		{
+			"type": "image",
+			"file": "title.png",
+			"name": "title",
+			"scale": 1
+		},
+		{
+			"type": "sound",
+			"file": "klack",
+			"name": "klack",
+			"scale": 1
+		},
+		{
+			"type": "sound",
+			"file": "line",
+			"name": "line",
+			"scale": 1
+		},
+		{
+			"type": "sound",
+			"file": "rotate",
+			"name": "rotate",
+			"scale": 1
+		},
+		{
+			"type": "music",
+			"file": "blocks",
+			"name": "blocks",
+			"scale": 1
+		}
+	],
+	"rooms": [
+		{
+			"name": "blocks",
+			"neighbours": [],
+			"assets": [
+				"block_red",
+				"block_blue",
+				"block_green",
+				"block_orange",
+				"block_purple",
+				"block_violet",
+				"block_yellow",
+				"board",
+				"score",
+				"title",
+				"klack",
+				"line",
+				"rotate",
+				"blocks"
+			],
+			"parent": null
+		}
+	]
 }
