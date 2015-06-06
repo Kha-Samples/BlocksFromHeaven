@@ -1,6 +1,7 @@
 package;
 
 import haxe.Timer;
+import kha.audio1.Audio;
 import kha.Button;
 import kha.Color;
 import kha.Configuration;
@@ -56,7 +57,7 @@ class BlocksFromHeaven extends Game {
 		lineSound = Loader.the.getSound("line");
 		
 		Configuration.setScreen(this);
-		Loader.the.getMusic("blocks").play();
+		Audio.playMusic(Loader.the.getMusic("blocks"));
 	}
 	
 	override public function render(framebuffer: Framebuffer): Void {
@@ -274,7 +275,7 @@ class BlocksFromHeaven extends Game {
 				++y;
 			}
 		}
-		if (lineDeleted) lineSound.play();
-		else klackSound.play();
+		if (lineDeleted) Audio.playSound(lineSound);
+		else Audio.playSound(klackSound);
 	}
 }
