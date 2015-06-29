@@ -13,7 +13,9 @@ import kha.LoadingScreen;
 import kha.math.Random;
 import kha.Scaler;
 import kha.Scheduler;
+import kha.ScreenCanvas;
 import kha.Sound;
+import kha.Sys;
 
 import BigBlock;
 
@@ -76,7 +78,7 @@ class BlocksFromHeaven extends Game {
 		current.draw(g);
 		g.end();
 		startRender(framebuffer);
-		Scaler.scale(backbuffer, framebuffer, kha.Sys.screenRotation);
+		Scaler.scale(backbuffer, framebuffer, Sys.screenRotation);
 		endRender(framebuffer);
 	}
 	
@@ -196,8 +198,8 @@ class BlocksFromHeaven extends Game {
 	override public function mouseDown(x: Int, y: Int): Void {
 		super.mouseDown(x, y);
 		mousedowncount = 0;
-		fingerstartx = painterTransformMouseX(x, y);
-		fingerstarty = painterTransformMouseY(x, y);
+		fingerstartx = Scaler.transformX(x, y, backbuffer, ScreenCanvas.the, Sys.screenRotation);
+		fingerstarty = Scaler.transformY(x, y, backbuffer, ScreenCanvas.the, Sys.screenRotation);
 		fingerposx = fingerstartx;
 		fingerposy = fingerstarty;
 		fingerdown = true;
@@ -210,8 +212,8 @@ class BlocksFromHeaven extends Game {
 	
 	override public function mouseMove(x: Int, y: Int): Void {
 		super.mouseMove(x, y);
-		fingerposx = painterTransformMouseX(x, y);
-		fingerposy = painterTransformMouseY(x, y);
+		fingerposx = Scaler.transformX(x, y, backbuffer, ScreenCanvas.the, Sys.screenRotation);
+		fingerposy = Scaler.transformY(x, y, backbuffer, ScreenCanvas.the, Sys.screenRotation);
 	}
 	
 	private function createRandomBlock(): BigBlock {

@@ -1,5 +1,6 @@
 package;
 
+import kha.audio1.Audio;
 import kha.graphics2.Graphics;
 import kha.Loader;
 import kha.Sound;
@@ -84,7 +85,7 @@ class BigBlock {
 	}
 	
 	public function rotate(): Void {
-		rotateSound.play();
+		Audio.playSound(rotateSound);
 		var i: Int = 0;
 		try {
 			while (i < 4) {
