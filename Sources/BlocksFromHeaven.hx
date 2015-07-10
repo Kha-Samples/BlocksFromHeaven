@@ -59,7 +59,7 @@ class BlocksFromHeaven extends Game {
 		lineSound = Loader.the.getSound("line");
 		
 		Configuration.setScreen(this);
-		Audio.playMusic(Loader.the.getMusic("blocks"));
+		Audio.playMusic(Loader.the.getMusic("blocks"), true);
 	}
 	
 	override public function render(framebuffer: Framebuffer): Void {
