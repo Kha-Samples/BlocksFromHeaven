@@ -1,8 +1,8 @@
 package;
 
+import kha.Assets;
 import kha.audio1.Audio;
 import kha.graphics2.Graphics;
-import kha.Loader;
 import kha.Sound;
 
 class BigBlock {
@@ -11,10 +11,8 @@ class BigBlock {
 	
 	private var center: Vector2i;
 	private var blocks: Array<GameBlock>;
-	private var rotateSound: Sound;
 
 	public function new(xx: Int, yy: Int) {
-		rotateSound = Loader.the.getSound("rotate");
 		center = new Vector2i(xx, yy);
 		blocks = new Array<GameBlock>();
 		for (i in 0...4) blocks.push(null);
@@ -85,7 +83,7 @@ class BigBlock {
 	}
 	
 	public function rotate(): Void {
-		Audio.playSound(rotateSound);
+		Audio.playSound(Assets.sounds.rotate);
 		var i: Int = 0;
 		try {
 			while (i < 4) {
@@ -118,7 +116,7 @@ class BigBlock {
 class IBlock extends BigBlock {
 	public function new() {
 		super(13, 17);
-		var image = Loader.the.getImage("block_red");
+		var image = Assets.images.block_red;
 		blocks[0] = new GameBlock(13, 18, image); blocks[1] = new GameBlock(13, 17, image);
 		blocks[2] = new GameBlock(13, 16, image); blocks[3] = new GameBlock(13, 15, image);
 	}
@@ -127,7 +125,7 @@ class IBlock extends BigBlock {
 class OBlock extends BigBlock {
 	public function new() {
 		super(13, 17);
-		var image = Loader.the.getImage("block_orange");
+		var image = Assets.images.block_orange;
 		blocks[0] = new GameBlock(12, 18, image); blocks[1] = new GameBlock(12, 17, image);
 		blocks[2] = new GameBlock(13, 18, image); blocks[3] = new GameBlock(13, 17, image);
 	}
@@ -140,7 +138,7 @@ class OBlock extends BigBlock {
 class LBlock extends BigBlock {
 	public function new() {
 		super(12, 17);
-		var image = Loader.the.getImage("block_blue");
+		var image = Assets.images.block_blue;
 		blocks[0] = new GameBlock(12, 18, image); blocks[1] = new GameBlock(12, 17, image);
 		blocks[2] = new GameBlock(12, 16, image); blocks[3] = new GameBlock(13, 16, image);
 	}
@@ -149,7 +147,7 @@ class LBlock extends BigBlock {
 class JBlock extends BigBlock {
 	public function new() {
 		super(12, 17);
-		var image = Loader.the.getImage("block_yellow");
+		var image = Assets.images.block_yellow;
 		blocks[0] = new GameBlock(13, 18, image); blocks[1] = new GameBlock(13, 17, image);
 		blocks[2] = new GameBlock(13, 16, image); blocks[3] = new GameBlock(12, 16, image);
 	}
@@ -158,7 +156,7 @@ class JBlock extends BigBlock {
 class TBlock extends BigBlock {
 	public function new() {
 		super(13, 17);
-		var image = Loader.the.getImage("block_green");
+		var image = Assets.images.block_green;
 		blocks[0] = new GameBlock(12, 18, image); blocks[1] = new GameBlock(13, 18, image);
 		blocks[2] = new GameBlock(14, 18, image); blocks[3] = new GameBlock(13, 17, image);
 	}
@@ -167,7 +165,7 @@ class TBlock extends BigBlock {
 class ZBlock extends BigBlock {
 	public function new() {
 		super(13, 18);
-		var image = Loader.the.getImage("block_purple");
+		var image = Assets.images.block_purple;
 		blocks[0] = new GameBlock(12, 18, image); blocks[1] = new GameBlock(13, 18, image);
 		blocks[2] = new GameBlock(13, 17, image); blocks[3] = new GameBlock(14, 17, image);
 	}
@@ -176,7 +174,7 @@ class ZBlock extends BigBlock {
 class SBlock extends BigBlock {
 	public function new() {
 		super(13, 17);
-		var image = Loader.the.getImage("block_violet");
+		var image = Assets.images.block_violet;
 		blocks[0] = new GameBlock(12, 17, image); blocks[1] = new GameBlock(13, 17, image);
 		blocks[2] = new GameBlock(13, 18, image); blocks[3] = new GameBlock(14, 18, image);
 	}

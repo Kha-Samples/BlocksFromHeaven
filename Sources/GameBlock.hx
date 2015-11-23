@@ -2,7 +2,6 @@ package;
 
 import kha.graphics2.Graphics;
 import kha.Image;
-import kha.Loader;
 
 class GameBlock {
 	public static var xsize: Int = 12;

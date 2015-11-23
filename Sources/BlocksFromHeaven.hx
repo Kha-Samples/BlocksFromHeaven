@@ -1,43 +1,36 @@
 package;
 
 import haxe.Timer;
+import kha.Assets;
 import kha.audio1.Audio;
 import kha.Button;
 import kha.Color;
-import kha.Configuration;
 import kha.Framebuffer;
-import kha.Game;
 import kha.Image;
-import kha.Loader;
-import kha.LoadingScreen;
 import kha.math.Random;
 import kha.Scaler;
 import kha.Scheduler;
 import kha.ScreenCanvas;
 import kha.Sound;
-import kha.Sys;
+import kha.System;
 
 import BigBlock;
 
-class BlocksFromHeaven extends Game {
-	private var board: Image;
+class BlocksFromHeaven {
+	private var initialized: Bool = false;
 	private var count: Int = 0;
 	private var faster: Bool = false;
-	private var klackSound: Sound;
-	private var lineSound: Sound;
 	private var backbuffer: Image;
+	private var gameover: Bool = false;
 	
 	public function new() {
-		super("BlocksFromHeaven", false);
+		Assets.loadEverything(loadingFinished);
 	}
-	
-	override public function init(): Void {
-		Configuration.setScreen(new LoadingScreen());
-		Loader.the.loadRoom("blocks", loadingFinished);
-	}
-	
+
 	private function loadingFinished(): Void {
-		Random.init(Std.int(Timer.stamp() * 1000));
+		initialized = true;
+		
+		Random.init(Std.int(System.time * 1000));
 		
 		backbuffer = Image.createRenderTarget(272, 480);
 		
@@ -54,19 +47,24 @@ class BlocksFromHeaven extends Game {
 		current.hop();
 		next = createRandomBlock();
 		
-		board = Loader.the.getImage("board");
-		klackSound = Loader.the.getSound("klack");
-		lineSound = Loader.the.getSound("line");
-		
-		Configuration.setScreen(this);
-		Audio.playMusic(Loader.the.getMusic("blocks"), true);
+		Audio.playSound(Assets.sounds.blocks);
+		//**Audio.playMusic(Loader.the.getMusic("blocks"), true);
 	}
 	
-	override public function render(framebuffer: Framebuffer): Void {
+	public function render(framebuffer: Framebuffer): Void {
+		if (!initialized) return;
+		
+		if (gameover) {
+			framebuffer.g2.begin();
+			framebuffer.g2.drawScaledImage(Assets.images.score, 0, 0, framebuffer.width, framebuffer.height);
+			framebuffer.g2.end();
+			return;
+		}
+		
 		var g = backbuffer.g2;
 		g.begin();
 		g.color = Color.White;
-		g.drawImage(board, 0, 0);
+		g.drawImage(Assets.images.board, 0, 0);
 		for (x in 0...GameBlock.xsize) {
 			for (y in 0...GameBlock.ysize) {
 				if (GameBlock.blocked[x][y] != null) {
@@ -77,9 +75,9 @@ class BlocksFromHeaven extends Game {
 		next.draw(g);
 		current.draw(g);
 		g.end();
-		startRender(framebuffer);
-		Scaler.scale(backbuffer, framebuffer, Sys.screenRotation);
-		endRender(framebuffer);
+		framebuffer.g2.begin();
+		Scaler.scale(backbuffer, framebuffer, System.screenRotation);
+		framebuffer.g2.end();
 	}
 	
 	private var left = false;
@@ -101,16 +99,15 @@ class BlocksFromHeaven extends Game {
 	private var blocksize: Int = 16;
 	private var lastclicktime: Float = 0;
 	
-	override public function update(): Void {		
+	public function update(): Void {
+		if (!initialized || gameover) return;
+		
 		lastleft = left;
 		lastright = right;
 
-		//
-		
 		++mousedowncount;
 		if (mousedowncount == 0) mousedowncount = 100;
 		
-	//
 		if (fingerdown) {
 			var leftright = false;
 			if (fingerposx - fingerstartx > 15 || fingerposx - fingerstartx < -15) leftright = true;
@@ -167,7 +164,7 @@ class BlocksFromHeaven extends Game {
 		else if (count % 60 == 0) down();		
 	}
 	
-	override public function buttonDown(button: Button): Void {
+	/*override public function buttonDown(button: Button): Void {
 		switch (button) {
 		case Button.LEFT:
 			left = true;
@@ -214,7 +211,7 @@ class BlocksFromHeaven extends Game {
 		super.mouseMove(x, y);
 		fingerposx = Scaler.transformX(x, y, backbuffer, ScreenCanvas.the, Sys.screenRotation);
 		fingerposy = Scaler.transformY(x, y, backbuffer, ScreenCanvas.the, Sys.screenRotation);
-	}
+	}*/
 	
 	private function createRandomBlock(): BigBlock {
 		switch (Random.getUpTo(6)) {
@@ -243,7 +240,7 @@ class BlocksFromHeaven extends Game {
 				current.hop();
 			}
 			catch (e: Exception) {
-				Configuration.setScreen(new GameOver());
+				gameover = true;
 				return;
 			}
 		}
@@ -277,7 +274,7 @@ class BlocksFromHeaven extends Game {
 				++y;
 			}
 		}
-		if (lineDeleted) Audio.playSound(lineSound);
-		else Audio.playSound(klackSound);
+		if (lineDeleted) Audio.playSound(Assets.sounds.line);
+		else Audio.playSound(Assets.sounds.klack);
 	}
 }
