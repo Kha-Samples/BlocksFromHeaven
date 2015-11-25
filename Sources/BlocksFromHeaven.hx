@@ -47,7 +47,7 @@ class BlocksFromHeaven {
 		current.hop();
 		next = createRandomBlock();
 		
-		Audio.playSound(Assets.sounds.blocks);
+		Audio.play(Assets.sounds.blocks, true);
 		//**Audio.playMusic(Loader.the.getMusic("blocks"), true);
 	}
 	
@@ -274,7 +274,7 @@ class BlocksFromHeaven {
 				++y;
 			}
 		}
-		if (lineDeleted) Audio.playSound(Assets.sounds.line);
-		else Audio.playSound(Assets.sounds.klack);
+		if (lineDeleted) Audio.play(Assets.sounds.line);
+		else Audio.play(Assets.sounds.klack);
 	}
 }

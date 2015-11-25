@@ -1,4 +1,4 @@
-var project = new Project('SML');
+var project = new Project('Blocks');
 
 project.addLibrary('Kha2D');
 
@@ -6,6 +6,6 @@ project.addAssets('Assets/**');
 
 project.addSources('Sources');
 
-project.addDefine('BLA');
+project.addShaders('Sources/Shaders');
 
 return project;

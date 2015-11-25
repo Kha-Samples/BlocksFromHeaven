@@ -83,7 +83,7 @@ class BigBlock {
 	}
 	
 	public function rotate(): Void {
-		Audio.playSound(Assets.sounds.rotate);
+		Audio.play(Assets.sounds.rotate);
 		var i: Int = 0;
 		try {
 			while (i < 4) {

@@ -1,5 +1,6 @@
 package;
 
+import kha.Assets;
 import kha.Scheduler;
 import kha.System;
 
