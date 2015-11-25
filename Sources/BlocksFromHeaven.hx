@@ -7,6 +7,10 @@ import kha.Button;
 import kha.Color;
 import kha.Framebuffer;
 import kha.Image;
+import kha.input.Gamepad;
+import kha.input.Keyboard;
+import kha.input.Mouse;
+import kha.Key;
 import kha.math.Random;
 import kha.Scaler;
 import kha.Scheduler;
@@ -47,8 +51,11 @@ class BlocksFromHeaven {
 		current.hop();
 		next = createRandomBlock();
 		
-		Audio.play(Assets.sounds.blocks, true);
-		//**Audio.playMusic(Loader.the.getMusic("blocks"), true);
+		if (Gamepad.get() != null) Gamepad.get().notify(gamepadAxis, gamepadButton);
+		if (Keyboard.get() != null) Keyboard.get().notify(keyDown, keyUp);
+		if (Mouse.get() != null) Mouse.get().notify(mouseDown, mouseUp, mouseMove, null);
+		
+		Audio.play(Assets.sounds.blocks, true); // TODO: Stream
 	}
 	
 	public function render(framebuffer: Framebuffer): Void {
@@ -164,54 +171,83 @@ class BlocksFromHeaven {
 		else if (count % 60 == 0) down();		
 	}
 	
-	/*override public function buttonDown(button: Button): Void {
-		switch (button) {
-		case Button.LEFT:
-			left = true;
-		case Button.RIGHT:
-			right = true;
-		case Button.DOWN:
-			down_ = true;
-		case Button.BUTTON_1, Button.BUTTON_2:
+	private function gamepadAxis(axis: Int, value: Float): Void {
+		if (axis == 0) {
+			if (value < -0.1) {
+				left = true;
+				right = false;
+			}
+			else if (value > 0.1) {
+				right = true;
+				left = false;
+			}
+			else {
+				left = false;
+				right = false;
+			}
+		}
+		if (axis == 1) {
+			if (value < -0.1) {
+				down_ = true;
+			}
+			else {
+				down_ = false;
+			}
+		}
+	}
+	
+	private function gamepadButton(button: Int, value: Float): Void {
+		if (value > 0.1) {
 			this.button = true;
-		default:
 		}
-	}
-	
-	override public function buttonUp(button: Button): Void {
-		switch (button) {
-		case Button.LEFT:
-			left = false;
-		case Button.RIGHT:
-			right = false;
-		case Button.DOWN:
-			down_ = false;
-		case Button.BUTTON_1, Button.BUTTON_2:
+		else {
 			this.button = false;
-		default:
 		}
 	}
 	
-	override public function mouseDown(x: Int, y: Int): Void {
-		super.mouseDown(x, y);
+	private function keyDown(key: Key, char: String): Void {
+		switch (key) {
+		case LEFT:
+			left = true;
+		case RIGHT:
+			right = true;
+		case DOWN:
+			down_ = true;
+		default:
+			button = true;
+		}
+	}
+	
+	private function keyUp(key: Key, char: String): Void {
+		switch (key) {
+		case LEFT:
+			left = false;
+		case RIGHT:
+			right = false;
+		case DOWN:
+			down_ = false;
+		default:
+			button = false;
+		}
+	}
+	
+	private function mouseDown(button: Int, x: Int, y: Int): Void {
 		mousedowncount = 0;
-		fingerstartx = Scaler.transformX(x, y, backbuffer, ScreenCanvas.the, Sys.screenRotation);
-		fingerstarty = Scaler.transformY(x, y, backbuffer, ScreenCanvas.the, Sys.screenRotation);
+		fingerstartx = Scaler.transformX(x, y, backbuffer, ScreenCanvas.the, System.screenRotation);
+		fingerstarty = Scaler.transformY(x, y, backbuffer, ScreenCanvas.the, System.screenRotation);
 		fingerposx = fingerstartx;
 		fingerposy = fingerstarty;
 		fingerdown = true;
 	}
 	
-	override public function mouseUp(x: Int, y: Int): Void {
-		super.mouseUp(x, y);
+	private function mouseUp(button: Int, x: Int, y: Int): Void {
 		fingerdown = false;
 	}
 	
-	override public function mouseMove(x: Int, y: Int): Void {
-		super.mouseMove(x, y);
-		fingerposx = Scaler.transformX(x, y, backbuffer, ScreenCanvas.the, Sys.screenRotation);
-		fingerposy = Scaler.transformY(x, y, backbuffer, ScreenCanvas.the, Sys.screenRotation);
-	}*/
+	private function mouseMove(x: Int, y: Int, movementX: Int, movementY: Int): Void {
+		fingerposx = Scaler.transformX(x, y, backbuffer, ScreenCanvas.the, System.screenRotation);
+		fingerposy = Scaler.transformY(x, y, backbuffer, ScreenCanvas.the, System.screenRotation);
+	}
 	
 	private function createRandomBlock(): BigBlock {
 		switch (Random.getUpTo(6)) {
