@@ -3,7 +3,6 @@ package;
 import haxe.Timer;
 import kha.Assets;
 import kha.audio1.Audio;
-import kha.Button;
 import kha.Color;
 import kha.Framebuffer;
 import kha.Image;
