@@ -8,8 +8,8 @@ import kha.Framebuffer;
 import kha.Image;
 import kha.input.Gamepad;
 import kha.input.Keyboard;
+import kha.input.KeyCode;
 import kha.input.Mouse;
-import kha.Key;
 import kha.math.Random;
 import kha.Scaler;
 import kha.Scheduler;
@@ -204,26 +204,26 @@ class BlocksFromHeaven {
 		}
 	}
 	
-	private function keyDown(key: Key, char: String): Void {
-		switch (key) {
-		case LEFT:
+	private function keyDown(code: Int): Void {
+		switch (code) {
+		case KeyCode.Left:
 			left = true;
-		case RIGHT:
+		case KeyCode.Right:
 			right = true;
-		case DOWN:
+		case KeyCode.Down:
 			down_ = true;
 		default:
 			button = true;
 		}
 	}
 	
-	private function keyUp(key: Key, char: String): Void {
-		switch (key) {
-		case LEFT:
+	private function keyUp(code: Int): Void {
+		switch (code) {
+		case KeyCode.Left:
 			left = false;
-		case RIGHT:
+		case KeyCode.Right:
 			right = false;
-		case DOWN:
+		case KeyCode.Down:
 			down_ = false;
 		default:
 			button = false;
