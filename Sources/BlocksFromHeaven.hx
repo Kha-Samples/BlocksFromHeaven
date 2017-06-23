@@ -204,26 +204,26 @@ class BlocksFromHeaven {
 		}
 	}
 	
-	private function keyDown(code: Int): Void {
+	private function keyDown(code: KeyCode): Void {
 		switch (code) {
-		case KeyCode.Left:
+		case Left:
 			left = true;
-		case KeyCode.Right:
+		case Right:
 			right = true;
-		case KeyCode.Down:
+		case Down:
 			down_ = true;
 		default:
 			button = true;
 		}
 	}
 	
-	private function keyUp(code: Int): Void {
+	private function keyUp(code: KeyCode): Void {
 		switch (code) {
-		case KeyCode.Left:
+		case Left:
 			left = false;
-		case KeyCode.Right:
+		case Right:
 			right = false;
-		case KeyCode.Down:
+		case Down:
 			down_ = false;
 		default:
 			button = false;
