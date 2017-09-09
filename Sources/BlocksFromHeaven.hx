@@ -16,6 +16,7 @@ import kha.Scheduler;
 import kha.ScreenCanvas;
 import kha.Sound;
 import kha.System;
+import kha.Worker;
 
 import BigBlock;
 
@@ -25,6 +26,7 @@ class BlocksFromHeaven {
 	private var faster: Bool = false;
 	private var backbuffer: Image;
 	private var gameover: Bool = false;
+	var worker: Worker;
 	
 	public function new() {
 		Assets.loadEverything(loadingFinished);
@@ -46,12 +48,18 @@ class BlocksFromHeaven {
 		for (y in 0...GameBlock.ysize) GameBlock.blocked[GameBlock.xsize - 1][y] = new GameBlock(GameBlock.xsize - 1, y, null);
 		for (x in 0...GameBlock.xsize) GameBlock.blocked[x][0] = new GameBlock(x, 0, null);
 		
-		current = createRandomBlock();
+		worker = kha.Worker.create(BlockMachine);
+		worker.notify(function (data: Dynamic) {
+			createRandomBlock(data);
+		});
+
+		current = new JBlock(); //createRandomBlock();
 		current.hop();
-		next = createRandomBlock();
+		next = null;
+		requestRandomBlock();
 		
 		if (Gamepad.get() != null) Gamepad.get().notify(gamepadAxis, gamepadButton);
-		if (Keyboard.get() != null) Keyboard.get().notify(keyDown, keyUp);
+		if (Keyboard.get() != null) Keyboard.get().notify(keyDown, keyUp, keyPress);
 		if (Mouse.get() != null) Mouse.get().notify(mouseDown, mouseUp, mouseMove, null);
 		
 		Audio.play(Assets.sounds.blocks, true); // TODO: Stream
@@ -78,7 +86,9 @@ class BlocksFromHeaven {
 				}
 			}
 		}
-		next.draw(g);
+		if (next != null) {
+			next.draw(g);
+		}
 		current.draw(g);
 		g.end();
 		framebuffer.g2.begin();
@@ -205,6 +215,7 @@ class BlocksFromHeaven {
 	}
 	
 	private function keyDown(code: KeyCode): Void {
+		trace("down");
 		switch (code) {
 		case Left:
 			left = true;
@@ -216,8 +227,9 @@ class BlocksFromHeaven {
 			button = true;
 		}
 	}
-	
+
 	private function keyUp(code: KeyCode): Void {
+		trace("up");
 		switch (code) {
 		case Left:
 			left = false;
@@ -228,6 +240,10 @@ class BlocksFromHeaven {
 		default:
 			button = false;
 		}
+	}
+
+	function keyPress(character: String): Void {
+		trace("press");
 	}
 	
 	private function mouseDown(button: Int, x: Int, y: Int): Void {
@@ -247,18 +263,21 @@ class BlocksFromHeaven {
 		fingerposx = Scaler.transformX(x, y, backbuffer, ScreenCanvas.the, System.screenRotation);
 		fingerposy = Scaler.transformY(x, y, backbuffer, ScreenCanvas.the, System.screenRotation);
 	}
-	
-	private function createRandomBlock(): BigBlock {
-		switch (Random.getUpTo(6)) {
-		case 0: return new IBlock();
-		case 1: return new LBlock();
-		case 2: return new JBlock();
-		case 3: return new TBlock();
-		case 4: return new ZBlock();
-		case 5: return new SBlock();
-		case 6: return new OBlock();
+
+	function requestRandomBlock(): Void {
+		worker.post({});
+	}
+
+	function createRandomBlock(message: Dynamic): Void {
+		switch (message.block) {
+		case 0: next = new IBlock();
+		case 1: next = new LBlock();
+		case 2: next = new JBlock();
+		case 3: next = new TBlock();
+		case 4: next = new ZBlock();
+		case 5: next = new SBlock();
+		case 6: next = new OBlock();
 		}
-		return null;
 	}
 	
 	private function down(): Void {
@@ -270,7 +289,8 @@ class BlocksFromHeaven {
 					GameBlock.blocked[block.getX()][block.getY()] = block;
 				}
 				current = next;
-				next = createRandomBlock();
+				next = null;
+				requestRandomBlock();
 				check();
 				current.hop();
 			}
