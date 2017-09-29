@@ -27,7 +27,10 @@ class BlocksFromHeaven {
 	private var gameover: Bool = false;
 	
 	public function new() {
-		Assets.loadEverything(loadingFinished);
+		Assets.loadEverything(loadingFinished, null, function (asset) {
+			if (asset.name == "blocks") return false;
+			return true;
+		});
 	}
 
 	private function loadingFinished(): Void {
@@ -54,7 +57,7 @@ class BlocksFromHeaven {
 		if (Keyboard.get() != null) Keyboard.get().notify(keyDown, keyUp);
 		if (Mouse.get() != null) Mouse.get().notify(mouseDown, mouseUp, mouseMove, null);
 		
-		Audio.play(Assets.sounds.blocks, true); // TODO: Stream
+		Audio.stream(Assets.sounds.blocks, true);
 	}
 	
 	public function render(framebuffer: Framebuffer): Void {
