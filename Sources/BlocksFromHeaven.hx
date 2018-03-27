@@ -57,7 +57,12 @@ class BlocksFromHeaven {
 		if (Keyboard.get() != null) Keyboard.get().notify(keyDown, keyUp);
 		if (Mouse.get() != null) Mouse.get().notify(mouseDown, mouseUp, mouseMove, null);
 		
-		Audio.stream(Assets.sounds.blocks, true);
+		if (Assets.sounds.blocks.uncompressedData != null) {
+			Audio.play(Assets.sounds.blocks, true);
+		}
+		else {
+			Audio.stream(Assets.sounds.blocks, true);
+		}
 	}
 	
 	public function render(framebuffer: Framebuffer): Void {
