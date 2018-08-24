@@ -65,9 +65,11 @@ class BlocksFromHeaven {
 		}
 	}
 	
-	public function render(framebuffer: Framebuffer): Void {
+	public function render(framebuffers: Array<Framebuffer>): Void {
 		if (!initialized) return;
 		
+		var framebuffer = framebuffers[0];
+
 		if (gameover) {
 			framebuffer.g2.begin();
 			framebuffer.g2.drawScaledImage(Assets.images.score, 0, 0, framebuffer.width, framebuffer.height);
