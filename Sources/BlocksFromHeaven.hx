@@ -1,6 +1,5 @@
 package;
 
-import haxe.Timer;
 import kha.Assets;
 import kha.audio1.Audio;
 import kha.Color;
@@ -14,49 +13,55 @@ import kha.math.Random;
 import kha.Scaler;
 import kha.Scheduler;
 import kha.ScreenCanvas;
-import kha.Sound;
 import kha.System;
-
 import BigBlock;
 
 class BlocksFromHeaven {
-	private var initialized: Bool = false;
-	private var count: Int = 0;
-	private var faster: Bool = false;
-	private var backbuffer: Image;
-	private var gameover: Bool = false;
-	
+	var initialized: Bool = false;
+	var count: Int = 0;
+	var faster: Bool = false;
+	var backbuffer: Image;
+	var gameover: Bool = false;
+
 	public function new() {
-		Assets.loadEverything(loadingFinished, null, function (asset) {
-			if (asset.name == "blocks") return false;
+		Assets.loadEverything(loadingFinished, null, function(asset) {
+			if (asset.name == "blocks")
+				return false;
 			return true;
 		});
 	}
 
-	private function loadingFinished(): Void {
+	function loadingFinished(): Void {
 		initialized = true;
-		
+
 		Random.init(Std.int(System.time * 1000));
-		
+
 		backbuffer = Image.createRenderTarget(272, 480);
-		
-		for (x in 0...GameBlock.xsize) for (y in 0...GameBlock.ysize) {
-			GameBlock.blocked.push(new Array<GameBlock>());
-			GameBlock.blocked[x].push(null);
-		}
-		
-		for (y in 0...GameBlock.ysize) GameBlock.blocked[0][y] = new GameBlock(0, y, null);
-		for (y in 0...GameBlock.ysize) GameBlock.blocked[GameBlock.xsize - 1][y] = new GameBlock(GameBlock.xsize - 1, y, null);
-		for (x in 0...GameBlock.xsize) GameBlock.blocked[x][0] = new GameBlock(x, 0, null);
-		
+
+		for (x in 0...GameBlock.xsize)
+			for (y in 0...GameBlock.ysize) {
+				GameBlock.blocked.push(new Array<GameBlock>());
+				GameBlock.blocked[x].push(null);
+			}
+
+		for (y in 0...GameBlock.ysize)
+			GameBlock.blocked[0][y] = new GameBlock(0, y, null);
+		for (y in 0...GameBlock.ysize)
+			GameBlock.blocked[GameBlock.xsize - 1][y] = new GameBlock(GameBlock.xsize - 1, y, null);
+		for (x in 0...GameBlock.xsize)
+			GameBlock.blocked[x][0] = new GameBlock(x, 0, null);
+
 		current = createRandomBlock();
 		current.hop();
 		next = createRandomBlock();
-		
-		if (Gamepad.get() != null) Gamepad.get().notify(gamepadAxis, gamepadButton);
-		if (Keyboard.get() != null) Keyboard.get().notify(keyDown, keyUp);
-		if (Mouse.get() != null) Mouse.get().notify(mouseDown, mouseUp, mouseMove, null);
-		
+
+		if (Gamepad.get() != null)
+			Gamepad.get().notify(gamepadAxis, gamepadButton);
+		if (Keyboard.get() != null)
+			Keyboard.get().notify(keyDown, keyUp);
+		if (Mouse.get() != null)
+			Mouse.get().notify(mouseDown, mouseUp, mouseMove, null);
+
 		if (Assets.sounds.blocks.uncompressedData != null) {
 			Audio.play(Assets.sounds.blocks, true);
 		}
@@ -64,10 +69,11 @@ class BlocksFromHeaven {
 			Audio.stream(Assets.sounds.blocks, true);
 		}
 	}
-	
+
 	public function render(framebuffers: Array<Framebuffer>): Void {
-		if (!initialized) return;
-		
+		if (!initialized)
+			return;
+
 		var framebuffer = framebuffers[0];
 
 		if (gameover) {
@@ -76,7 +82,7 @@ class BlocksFromHeaven {
 			framebuffer.g2.end();
 			return;
 		}
-		
+
 		var g = backbuffer.g2;
 		g.begin();
 		g.color = Color.White;
@@ -95,38 +101,41 @@ class BlocksFromHeaven {
 		Scaler.scale(backbuffer, framebuffer, System.screenRotation);
 		framebuffer.g2.end();
 	}
-	
-	private var left = false;
-	private var right = false;
-	private var lastleft = false;
-	private var lastright = false;
-	private var down_ = false;
-	private var button = true;
-	private var current: BigBlock;
-	private var next: BigBlock;
-	private var xcount: Int = 0;
-	
-	private var mousedowncount: Int = 0;
-	private var fingerdown: Bool = false;
-	private var fingerposx: Int = 0;
-	private var fingerposy: Int = 0;
-	private var fingerstartx: Int = 0;
-	private var fingerstarty: Int = 0;
-	private var blocksize: Int = 16;
-	private var lastclicktime: Float = 0;
-	
+
+	var left = false;
+	var right = false;
+	var lastleft = false;
+	var lastright = false;
+	var down_ = false;
+	var button = true;
+	var current: BigBlock;
+	var next: BigBlock;
+	var xcount: Int = 0;
+
+	var mousedowncount: Int = 0;
+	var fingerdown: Bool = false;
+	var fingerposx: Int = 0;
+	var fingerposy: Int = 0;
+	var fingerstartx: Int = 0;
+	var fingerstarty: Int = 0;
+	var blocksize: Int = 16;
+	var lastclicktime: Float = 0;
+
 	public function update(): Void {
-		if (!initialized || gameover) return;
-		
+		if (!initialized || gameover)
+			return;
+
 		lastleft = left;
 		lastright = right;
 
 		++mousedowncount;
-		if (mousedowncount == 0) mousedowncount = 100;
-		
+		if (mousedowncount == 0)
+			mousedowncount = 100;
+
 		if (fingerdown) {
 			var leftright = false;
-			if (fingerposx - fingerstartx > 15 || fingerposx - fingerstartx < -15) leftright = true;
+			if (fingerposx - fingerstartx > 15 || fingerposx - fingerstartx < -15)
+				leftright = true;
 			while (fingerposx - fingerstartx > blocksize) {
 				fingerstartx += blocksize;
 				current.right();
@@ -157,7 +166,7 @@ class BlocksFromHeaven {
 				}
 			}
 		}
-		
+
 		++count;
 		++xcount;
 		if (right && !lastright) {
@@ -169,18 +178,22 @@ class BlocksFromHeaven {
 			xcount = 0;
 		}
 		if (xcount % 4 == 0) {
-			if (right && lastright) current.right();
-			else if (left && lastleft) current.left();
+			if (right && lastright)
+				current.right();
+			else if (left && lastleft)
+				current.left();
 		}
 		if (button) {
 			current.rotate();
 			button = false;
 		}
-		if (down_) down();
-		else if (count % 60 == 0) down();		
+		if (down_)
+			down();
+		else if (count % 60 == 0)
+			down();
 	}
-	
-	private function gamepadAxis(axis: Int, value: Float): Void {
+
+	function gamepadAxis(axis: Int, value: Float): Void {
 		if (axis == 0) {
 			if (value < -0.1) {
 				left = true;
@@ -204,8 +217,8 @@ class BlocksFromHeaven {
 			}
 		}
 	}
-	
-	private function gamepadButton(button: Int, value: Float): Void {
+
+	function gamepadButton(button: Int, value: Float): Void {
 		if (value > 0.1) {
 			this.button = true;
 		}
@@ -213,34 +226,34 @@ class BlocksFromHeaven {
 			this.button = false;
 		}
 	}
-	
-	private function keyDown(code: KeyCode): Void {
+
+	function keyDown(code: KeyCode): Void {
 		switch (code) {
-		case Left:
-			left = true;
-		case Right:
-			right = true;
-		case Down:
-			down_ = true;
-		default:
-			button = true;
+			case Left:
+				left = true;
+			case Right:
+				right = true;
+			case Down:
+				down_ = true;
+			default:
+				button = true;
 		}
 	}
-	
-	private function keyUp(code: KeyCode): Void {
+
+	function keyUp(code: KeyCode): Void {
 		switch (code) {
-		case Left:
-			left = false;
-		case Right:
-			right = false;
-		case Down:
-			down_ = false;
-		default:
-			button = false;
+			case Left:
+				left = false;
+			case Right:
+				right = false;
+			case Down:
+				down_ = false;
+			default:
+				button = false;
 		}
 	}
-	
-	private function mouseDown(button: Int, x: Int, y: Int): Void {
+
+	function mouseDown(button: Int, x: Int, y: Int): Void {
 		mousedowncount = 0;
 		fingerstartx = Scaler.transformX(x, y, backbuffer, ScreenCanvas.the, System.screenRotation);
 		fingerstarty = Scaler.transformY(x, y, backbuffer, ScreenCanvas.the, System.screenRotation);
@@ -248,30 +261,37 @@ class BlocksFromHeaven {
 		fingerposy = fingerstarty;
 		fingerdown = true;
 	}
-	
-	private function mouseUp(button: Int, x: Int, y: Int): Void {
+
+	function mouseUp(button: Int, x: Int, y: Int): Void {
 		fingerdown = false;
 	}
-	
-	private function mouseMove(x: Int, y: Int, movementX: Int, movementY: Int): Void {
+
+	function mouseMove(x: Int, y: Int, movementX: Int, movementY: Int): Void {
 		fingerposx = Scaler.transformX(x, y, backbuffer, ScreenCanvas.the, System.screenRotation);
 		fingerposy = Scaler.transformY(x, y, backbuffer, ScreenCanvas.the, System.screenRotation);
 	}
-	
-	private function createRandomBlock(): BigBlock {
+
+	function createRandomBlock(): BigBlock {
 		switch (Random.getUpTo(6)) {
-		case 0: return new IBlock();
-		case 1: return new LBlock();
-		case 2: return new JBlock();
-		case 3: return new TBlock();
-		case 4: return new ZBlock();
-		case 5: return new SBlock();
-		case 6: return new OBlock();
+			case 0:
+				return new IBlock();
+			case 1:
+				return new LBlock();
+			case 2:
+				return new JBlock();
+			case 3:
+				return new TBlock();
+			case 4:
+				return new ZBlock();
+			case 5:
+				return new SBlock();
+			case 6:
+				return new OBlock();
 		}
 		return null;
 	}
-	
-	private function down(): Void {
+
+	function down(): Void {
 		if (!current.down()) {
 			down_ = false;
 			try {
@@ -284,19 +304,20 @@ class BlocksFromHeaven {
 				check();
 				current.hop();
 			}
-			catch (e: Exception) {
+			catch (e:Exception) {
 				gameover = true;
 				return;
 			}
 		}
 	}
-	
-	private function lineBlocked(y: Int): Bool {
-		return GameBlock.blocked[1][y] != null && GameBlock.blocked[2][y] != null && GameBlock.blocked[3][y] != null && GameBlock.blocked[4][y] != null && GameBlock.blocked[5][y] != null &&
-			GameBlock.blocked[6][y] != null && GameBlock.blocked[7][y] != null && GameBlock.blocked[8][y] != null && GameBlock.blocked[9][y] != null && GameBlock.blocked[10][y] != null ;
+
+	function lineBlocked(y: Int): Bool {
+		return GameBlock.blocked[1][y] != null && GameBlock.blocked[2][y] != null && GameBlock.blocked[3][y] != null && GameBlock.blocked[4][y] != null
+			&& GameBlock.blocked[5][y] != null && GameBlock.blocked[6][y] != null && GameBlock.blocked[7][y] != null && GameBlock.blocked[8][y] != null
+			&& GameBlock.blocked[9][y] != null && GameBlock.blocked[10][y] != null;
 	}
-	
-	private function check(): Void {
+
+	function check(): Void {
 		var lineDeleted = false;
 		for (i in 0...4) {
 			var y: Int = 1;
@@ -308,18 +329,21 @@ class BlocksFromHeaven {
 					}
 					y += 1;
 					while (y < GameBlock.ysize) {
-						for (x in 1...GameBlock.xsize - 1) if (GameBlock.blocked[x][y] != null) {
-							GameBlock.blocked[x][y].down();
-							GameBlock.blocked[x][y - 1] = GameBlock.blocked[x][y];
-							GameBlock.blocked[x][y] = null;
-						}
+						for (x in 1...GameBlock.xsize - 1)
+							if (GameBlock.blocked[x][y] != null) {
+								GameBlock.blocked[x][y].down();
+								GameBlock.blocked[x][y - 1] = GameBlock.blocked[x][y];
+								GameBlock.blocked[x][y] = null;
+							}
 						++y;
 					}
 				}
 				++y;
 			}
 		}
-		if (lineDeleted) Audio.play(Assets.sounds.line);
-		else Audio.play(Assets.sounds.klack);
+		if (lineDeleted)
+			Audio.play(Assets.sounds.line);
+		else
+			Audio.play(Assets.sounds.klack);
 	}
 }

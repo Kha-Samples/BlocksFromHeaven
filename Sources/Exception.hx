@@ -1,7 +1,5 @@
 package;
 
 class Exception {
-	public function new() {
-		
-	}
+	public function new() {}
 }
